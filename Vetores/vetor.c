@@ -45,5 +45,6 @@ int main()
       C +=(V[i] - Md)*(V[i] - Md);
     }
     Ds = raiz(C/i);
-    printf("\nMaior=%d \nMenor=%d \nMedia=%.2f \nDesvio padrao=%.2f", Ma, Me, Md, Ds);   
+    printf("\nMaior=%d \nMenor=%d \nMedia=%.2f \nDesvio padrao=%.2f", Ma, Me, Md, Ds);
+    return 0;
 }
