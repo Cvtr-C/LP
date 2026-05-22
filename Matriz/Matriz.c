@@ -2,21 +2,21 @@
 
 int main()
 {
-    int M[3][10], Alunos, Notas, Ma, Me, S = 0, s =0;
-    float Mdn, Mda;
+    int Alunos, Notas; 
+    float Mdn, Mda, M[3][10], Ma, Me, S = 0, s =0;
     for(Notas = 0; Notas < 3; Notas++)
     {
         for(Alunos = 0; Alunos < 10; Alunos++)
         {
             printf("M[%d][%d]:", Notas, Alunos);
-            scanf("%d", &M[Notas][Alunos]);
+            scanf("%f", &M[Notas][Alunos]);
         }  
     }
     for(Notas = 0; Notas < 3; Notas++)
     {
         for(Alunos = 0; Alunos < 10; Alunos++)
         {
-            printf("%d\t", M[Notas][Alunos]);
+            printf("%.2f\t", M[Notas][Alunos]);
         }   
         printf("\n");
     }
@@ -47,7 +47,7 @@ int main()
             }
         } 
         Mda = (float)s/Notas;
-        printf("Maior nota = %d \nMenor nota = %d \nMédia = %.2f\n", Ma, Me, Mda);
+        printf("Maior nota = %.2f \nMenor nota = %.2f \nMédia = %.2f\n", Ma, Me, Mda);
         if(Mda >= 6)
         {
             printf("Aprovado");
@@ -85,7 +85,7 @@ int main()
             }
         }
         Mdn = (float)S/10;
-        printf("Média da prova %d = %.2f \nMaior nota da prova %d = %d \nMenor nota da prova %d = %d\n\n", Notas + 1, Mdn, Notas + 1, Ma, Notas + 1, Me);
+        printf("Média da prova %d = %.2f \nMaior nota da prova %d = %.2f \nMenor nota da prova %d = %.2f\n\n", Notas + 1, Mdn, Notas + 1, Ma, Notas + 1, Me);
         S = 0;
     }
     return 0;
