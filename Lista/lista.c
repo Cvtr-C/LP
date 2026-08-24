@@ -10,7 +10,7 @@ int main()
     printf("===================\n");
     printf("-------LISTA-------\n");
     printf("===================\n");
-    printf("(1) - Novo\n(2) - Atualizar\n(3) - Excluir\n(4) - Mostrar\n(5) - Finalizar\n");
+    printf("(1) - Novo\n(2) - Inserir\n(3) - Atualizar\n(4) - Excluir\n(5) - Mostrar\n(6) - Finalizar\n");
     printf("Digite o processo que você quer:");
     scanf("%d", &res);
 
@@ -32,6 +32,32 @@ int main()
       break;
 
     case 2:
+      g = -1;
+      while (g < 0 || g > t)
+      {
+        printf("\nDigite uma posição de 0 à %d!!!\n", t);
+        printf("Digite onde você quer inserir o número:");
+        scanf("%d", &g);
+      }
+      t = t + 1;
+
+      A = (int *)realloc(A, t * sizeof(int));
+      if (A == NULL)
+      {
+        printf("Erro de alocação\n");
+        return 1;
+      }
+
+      for (int l = t - 1; l > g; l--)
+      {
+        A[l] = A[l - 1];
+      }
+      printf("Digite o número que você quer adicionar:");
+      scanf("%d", &r);
+      A[g] = r;
+      break;
+
+    case 3:
       if (t == 0)
       {
         printf("A lista está vazia então não é possivel atualizar!\n");
@@ -51,7 +77,7 @@ int main()
       }
       break;
 
-    case 3:
+    case 4:
       if (t == 0)
       {
         printf("A lista está vazia!\n");
@@ -84,7 +110,7 @@ int main()
       }
       break;
 
-    case 4:
+    case 5:
       if (t == 0)
       {
         printf("A lista está vazia!\n");
@@ -101,7 +127,7 @@ int main()
       }
       break;
 
-    case 5:
+    case 6:
       printf("Finalizando o processo...!\n");
       if (A != NULL)
       {
