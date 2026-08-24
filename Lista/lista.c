@@ -7,10 +7,10 @@ int main()
 
   while (1)
   {
-    printf("===================");
-    printf("-------LISTA-------");
-    printf("===================");
-    printf("(1) - Novo\n(2) - Atualizar\n (3) - Excluir\n(4) - Mostrar\n(5) - Finalizar\n");
+    printf("===================\n");
+    printf("-------LISTA-------\n");
+    printf("===================\n");
+    printf("(1) - Novo\n(2) - Atualizar\n(3) - Excluir\n(4) - Mostrar\n(5) - Finalizar\n");
     printf("Digite o processo que você quer:");
     scanf("%d", &res);
 
@@ -22,11 +22,11 @@ int main()
       A = (int *)realloc(A, t * sizeof(int));
       if (A == NULL)
       {
-        printf("Erro de alocação");
+        printf("Erro de alocação\n");
         return 1;
       }
 
-      printf("Digite o número que você quer adicionar");
+      printf("Digite o número que você quer adicionar:");
       scanf("%d", &r);
       A[t - 1] = r;
       break;
@@ -34,7 +34,7 @@ int main()
     case 2:
       if (t == 0)
       {
-        printf("A lista está vazia então não é possivel atualizar!");
+        printf("A lista está vazia então não é possivel atualizar!\n");
       }
       else
       {
@@ -45,7 +45,7 @@ int main()
           printf("Digite onde você quer atualizar o número:");
           scanf("%d", &g);
         }
-        printf("\nDigite o número que você quer substituir:");
+        printf("Digite o número que você quer substituir:");
         scanf("%d", &r);
         A[g] = r;
       }
@@ -54,18 +54,18 @@ int main()
     case 3:
       if (t == 0)
       {
-        printf("A lista está vazia!");
+        printf("A lista está vazia!\n");
       }
       else
       {
         g = -1;
         while (g < 0 || g > t - 1)
         {
-          printf("Digite uma posição de 0 à %d!!!", t - 1);
+          printf("Digite uma posição de 0 à %d!!!\n", t - 1);
           printf("Digite a posição que você quer excluir:");
           scanf("%d", &g);
         }
-        printf("O número %d foi removido!", A[g]);
+        printf("O número %d foi removido!\n", A[g]);
         for (int l = g; l < t - 1; l++)
         {
           A[l] = A[l + 1];
@@ -73,7 +73,7 @@ int main()
         t = t - 1;
         if (t == 0)
         {
-          printf("A lista está vazia agora!");
+          printf("A lista está vazia agora!\n");
           free(A);
           A = NULL;
         }
