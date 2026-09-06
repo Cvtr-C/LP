@@ -20,14 +20,18 @@ typedef struct medianas
 } med;
 med *medianas = NULL;
 
+int centroX = 400;
+int centroY = 400;
+int fatorEscala = 4;
+
 Mat lista::renderizarTela(string status)
 {
     Mat image(800, 800, CV_8UC3, Scalar(255, 255, 255));
 
     for (int i = 0; i < (int)list.size(); i++)
     {
-        int px = (list.at(i).x() * 20) + 400;
-        int py = (list.at(i).y() * 20) + 400;
+        int px = (list.at(i).x() * fatorEscala) + centroX;
+        int py = (list.at(i).y() * fatorEscala) + centroY;
         cv::circle(image, Point(px, py), 5, Scalar(0, 0, 255), FILLED);
     }
 
@@ -43,8 +47,8 @@ void lista::clique(int event, int x, int y, int flags, void *userdata)
     ClickData *data = static_cast<ClickData *>(userdata);
     if (event == EVENT_LBUTTONDOWN)
     {
-        data->x = (x - 400) / 20;
-        data->y = (y - 400) / 20;
+        data->x = (x - centroX) / fatorEscala;
+        data->y = (y - centroY) / fatorEscala;
         data->clicked = true;
     }
 }
@@ -343,5 +347,5 @@ void lista::mostrarPontos()
     namedWindow("Mapeamento Espacial", WINDOW_AUTOSIZE);
     Mat img = renderizarTela();
     imshow("Mapeamento Espacial", img);
-    waitKey(1);
+    waitKey(50);
 }

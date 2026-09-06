@@ -1,8 +1,5 @@
 #include "menu.h"
 
-// ==================================================================
-// 1. BLOCOS DE TEXTO REUTILIZÁVEIS
-// ==================================================================
 void imprimirSeparador()
 {
   cout << "---------------------------------------" << endl;
@@ -25,9 +22,6 @@ void mostrarSucesso(string mensagem)
   cout << " [+] " << mensagem << endl;
 }
 
-// ==================================================================
-// 2. ENTRADAS COM BLINDAGEM CONTRA FALHAS
-// ==================================================================
 int lerInteiro(string mensagem)
 {
   int valor;
@@ -58,16 +52,12 @@ void obterCoordenadas(int &x, int &y, lista &list, string acao)
     if (!list.obterPontoPorClique(x, y, acao))
     {
       mostrarErro("Operacao grafica cancelada.");
-      // Define coordenadas nulas para evitar lixo de memoria se for cancelado
       x = -1;
       y = -1;
     }
   }
 }
 
-// ==================================================================
-// 3. SUBMENUS GLOBAIS (Usados na Fila, Pilha e Lista)
-// ==================================================================
 void menuImportarArquivo(lista &list)
 {
   int opc;
@@ -92,16 +82,13 @@ void menuGerarCirculo(lista &list, string acao)
   int x, y, r, n;
   obterCoordenadas(x, y, list, acao);
   if (x != -1)
-  { // Verifica se nao foi cancelado no mouse
+  {
     r = lerInteiro(" [?] Informe o raio r: ");
     n = lerInteiro(" [?] Informe a quantidade de pontos n: ");
     list.circle(x, y, r, n);
   }
 }
 
-// ==================================================================
-// 4. CONTROLADORES PRINCIPAIS DE CADA ESTRUTURA
-// ==================================================================
 void executarMenuLista(lista &list)
 {
   int opc2, opc3, x, y, ind;
@@ -263,8 +250,6 @@ void executarMenuFila(lista &list)
 
   } while (opc2 != 3);
 }
-
-// Adicione estas implementações no seu menu.cpp
 
 void msgErroDuplicado(int x, int y)
 {
