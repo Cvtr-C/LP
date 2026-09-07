@@ -7,19 +7,6 @@
 
 using namespace cv;
 
-ponto *vet = NULL;
-ponto *aux = NULL;
-float *distancia = NULL;
-int tamanho, tamanhoaux;
-int cont = 0;
-
-typedef struct medianas
-{
-    float x;
-    float y;
-} med;
-med *medianas = NULL;
-
 int centroX = 400;
 int centroY = 400;
 int fatorEscala = 4;
