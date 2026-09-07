@@ -334,5 +334,5 @@ void lista::mostrarPontos()
     namedWindow("Mapeamento Espacial", WINDOW_AUTOSIZE);
     Mat img = renderizarTela();
     imshow("Mapeamento Espacial", img);
-    waitKey(2000);
+    waitKey(60);
 }
