@@ -2132,7 +2132,7 @@ Execução:
 
 # 👨‍💻 Autor
 
-**Cvtr-C**
+**Carlos Vitor Taleires Rodrigues**
 
 Projeto desenvolvido para estudo e prática de **C++, Estruturas de Dados, Programação Orientada a Objetos e OpenCV**.
 
