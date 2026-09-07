@@ -297,7 +297,7 @@ O projeto acompanha diferentes etapas do aprendizado de programação em C, part
 
 ## 👨‍💻 Autor
 
-**Cvtr-C**
+**Carlos Vitor Taleires Rodrigues**
 
 GitHub:
 https://github.com/Cvtr-C
