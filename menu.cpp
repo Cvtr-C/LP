@@ -36,7 +36,7 @@ int lerInteiro(string mensagem)
   return valor;
 }
 
-void obterCoordenadas(int &x, int &y, lista &list, string acao)
+bool obterCoordenadas(int &x, int &y, lista &list, string acao)
 {
   int escolha;
   cout << " [1] Digitar (Teclado) | [2] Clicar (Interface Grafica)\n";
@@ -46,15 +46,16 @@ void obterCoordenadas(int &x, int &y, lista &list, string acao)
   {
     x = lerInteiro(" [+] Informe X: ");
     y = lerInteiro(" [+] Informe Y: ");
+    return true;
   }
   else
   {
     if (!list.obterPontoPorClique(x, y, acao))
     {
       mostrarErro("Operacao grafica cancelada.");
-      x = -1;
-      y = -1;
+      return false;
     }
+    return true;
   }
 }
 
@@ -70,18 +71,27 @@ void menuImportarArquivo(lista &list)
     imprimirSeparador();
     opc = lerInteiro(" [>] Digite a opcao desejada: ");
 
-    if (opc == 1)
+    switch (opc)
+    {
+    case 1:
       list.file((char *)"pontos1.txt");
-    else if (opc == 2)
+      break;
+    case 2:
       list.file((char *)"pontos2.txt");
+      break;
+    case 3:
+      break;
+    default:
+      mostrarErro("Opcao invalida.");
+      break;
+    }
   } while (opc != 3);
 }
 
 void menuGerarCirculo(lista &list, string acao)
 {
   int x, y, r, n;
-  obterCoordenadas(x, y, list, acao);
-  if (x != -1)
+  if (obterCoordenadas(x, y, list, acao))
   {
     r = lerInteiro(" [?] Informe o raio r: ");
     n = lerInteiro(" [?] Informe a quantidade de pontos n: ");
@@ -100,8 +110,9 @@ void executarMenuLista(lista &list)
     imprimirSeparador();
     opc2 = lerInteiro(" [>] Digite a opcao: ");
 
-    if (opc2 == 1)
+    switch (opc2)
     {
+    case 1:
       do
       {
         imprimirCabecalho("LISTA: ADICIONAR");
@@ -112,40 +123,41 @@ void executarMenuLista(lista &list)
         imprimirSeparador();
         opc3 = lerInteiro(" [>] Digite a opcao: ");
 
-        if (opc3 == 1)
+        switch (opc3)
         {
-          obterCoordenadas(x, y, list, "Inserir Inicio");
-          if (x != -1)
+        case 1:
+          if (obterCoordenadas(x, y, list, "Inserir Inicio"))
             list.adicionarNoComeco(x, y);
-        }
-        else if (opc3 == 2)
-        {
-          obterCoordenadas(x, y, list, "Inserir Fim");
-          if (x != -1)
+          break;
+        case 2:
+          if (obterCoordenadas(x, y, list, "Inserir Fim"))
             list.adicionarNoFim(x, y);
-        }
-        else if (opc3 == 3)
-        {
+          break;
+        case 3:
           ind = lerInteiro(" [?] Informe o indice alvo (1 a N): ");
-          obterCoordenadas(x, y, list, "Inserir no Indice");
-          if (x != -1)
+          if (obterCoordenadas(x, y, list, "Inserir no Indice"))
             list.adicionarNoIndice(x, y, ind);
-        }
-        else if (opc3 == 4)
+          break;
+        case 4:
           menuImportarArquivo(list);
-        else if (opc3 == 5)
-        {
-          obterCoordenadas(x, y, list, "Centroide");
-          if (x != -1)
+          break;
+        case 5:
+          if (obterCoordenadas(x, y, list, "Centroide"))
             list.adicionarCentroideMaisProximo(x, y);
-        }
-        else if (opc3 == 6)
+          break;
+        case 6:
           menuGerarCirculo(list, "Circulo Lista");
-
+          break;
+        case 7:
+          break;
+        default:
+          mostrarErro("Opcao invalida.");
+          break;
+        }
       } while (opc3 != 7);
-    }
-    else if (opc2 == 2)
-    {
+      break;
+
+    case 2:
       do
       {
         imprimirCabecalho("LISTA: EXCLUIR");
@@ -155,22 +167,36 @@ void executarMenuLista(lista &list)
         imprimirSeparador();
         opc3 = lerInteiro(" [>] Digite a opcao: ");
 
-        if (opc3 == 1)
-          list.apagarPrimeiroPonto();
-        else if (opc3 == 2)
-          list.apagarUltimoPonto();
-        else if (opc3 == 3)
+        switch (opc3)
         {
+        case 1:
+          list.apagarPrimeiroPonto();
+          break;
+        case 2:
+          list.apagarUltimoPonto();
+          break;
+        case 3:
           ind = lerInteiro(" [?] Informe o indice: ");
           list.apagarIndice(ind);
-        }
-        else if (opc3 == 4)
-        {
-          obterCoordenadas(x, y, list, "Apagar Proximo");
-          if (x != -1)
+          break;
+        case 4:
+          if (obterCoordenadas(x, y, list, "Apagar Proximo"))
             list.apagarPontoMaisProximo(x, y);
+          break;
+        case 5:
+          break;
+        default:
+          mostrarErro("Opcao invalida.");
+          break;
         }
       } while (opc3 != 5);
+      break;
+
+    case 3:
+      break;
+    default:
+      mostrarErro("Opcao invalida.");
+      break;
     }
   } while (opc2 != 3);
 }
@@ -186,8 +212,9 @@ void executarMenuPilha(lista &list)
     imprimirSeparador();
     opc2 = lerInteiro(" [>] Digite a opcao: ");
 
-    if (opc2 == 1)
+    switch (opc2)
     {
+    case 1:
       do
       {
         imprimirCabecalho("PILHA: ADICIONAR");
@@ -197,22 +224,36 @@ void executarMenuPilha(lista &list)
         imprimirSeparador();
         opc3 = lerInteiro(" [>] Digite a opcao: ");
 
-        if (opc3 == 1)
+        switch (opc3)
         {
-          obterCoordenadas(x, y, list, "Pilha Push");
-          if (x != -1)
+        case 1:
+          if (obterCoordenadas(x, y, list, "Pilha Push"))
             list.adicionarNoFim(x, y);
-        }
-        else if (opc3 == 2)
+          break;
+        case 2:
           menuImportarArquivo(list);
-        else if (opc3 == 3)
+          break;
+        case 3:
           menuGerarCirculo(list, "Circulo Pilha");
+          break;
+        case 4:
+          break;
+        default:
+          mostrarErro("Opcao invalida.");
+          break;
+        }
       } while (opc3 != 4);
-    }
-    else if (opc2 == 2)
+      break;
+    case 2:
       list.apagarUltimoPonto();
-    list.mostrarGrafico();
-
+      list.mostrarGrafico();
+      break;
+    case 3:
+      break;
+    default:
+      mostrarErro("Opcao invalida.");
+      break;
+    }
   } while (opc2 != 3);
 }
 
@@ -227,8 +268,9 @@ void executarMenuFila(lista &list)
     imprimirSeparador();
     opc2 = lerInteiro(" [>] Digite a opcao: ");
 
-    if (opc2 == 1)
+    switch (opc2)
     {
+    case 1:
       do
       {
         imprimirCabecalho("FILA: ADICIONAR");
@@ -238,22 +280,36 @@ void executarMenuFila(lista &list)
         imprimirSeparador();
         opc3 = lerInteiro(" [>] Digite a opcao: ");
 
-        if (opc3 == 1)
+        switch (opc3)
         {
-          obterCoordenadas(x, y, list, "Fila Enqueue");
-          if (x != -1)
+        case 1:
+          if (obterCoordenadas(x, y, list, "Fila Enqueue"))
             list.adicionarNoFim(x, y);
-        }
-        else if (opc3 == 2)
+          break;
+        case 2:
           menuImportarArquivo(list);
-        else if (opc3 == 3)
+          break;
+        case 3:
           menuGerarCirculo(list, "Circulo Fila");
+          break;
+        case 4:
+          break;
+        default:
+          mostrarErro("Opcao invalida.");
+          break;
+        }
       } while (opc3 != 4);
-    }
-    else if (opc2 == 2)
+      break;
+    case 2:
       list.apagarPrimeiroPonto();
-    list.mostrarGrafico();
-
+      list.mostrarGrafico();
+      break;
+    case 3:
+      break;
+    default:
+      mostrarErro("Opcao invalida.");
+      break;
+    }
   } while (opc2 != 3);
 }
 

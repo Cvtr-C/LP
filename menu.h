@@ -13,7 +13,7 @@ void mostrarErro(string mensagem);
 void mostrarSucesso(string mensagem);
 
 int lerInteiro(string mensagem);
-void obterCoordenadas(int &x, int &y, lista &list, string acao);
+bool obterCoordenadas(int &x, int &y, lista &list, string acao);
 void menuImportarArquivo(lista &list);
 void menuGerarCirculo(lista &list, string acao);
 

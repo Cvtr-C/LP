@@ -8,6 +8,7 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <math.h>
+using namespace std;
 
 class lista
 {
@@ -16,8 +17,6 @@ public:
 
     lista();
     lista(int x, int y);
-    lista(int x, int y, float raio, int numero_pontos);
-    lista(char *fileName);
 
     ~lista();
 

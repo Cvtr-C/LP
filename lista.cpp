@@ -162,7 +162,6 @@ bool lista::obterPontoPorClique(int &x, int &y, string acao)
 
     ClickData data;
     setMouseCallback(tituloJanela, lista::clique, &data);
-    ;
 
     while (true)
     {
@@ -448,6 +447,7 @@ void lista::mostrarPontos()
     if (list.empty())
     {
         cout << "[i] O ambiente espacial esta vazio." << endl;
+        return;
     }
 
     imprimirCabecalho("MAPEAMENTO ESPACIAL");
