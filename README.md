@@ -1134,7 +1134,7 @@ Este projeto permite praticar conceitos presentes em disciplinas como:
 
 # 👨‍💻 Autor
 
-**Cvtr-C**
+**Carlos Vitor Taleires Rodrigues**
 
 Projeto desenvolvido para fins acadêmicos e de aprendizado em programação, estruturas de dados e desenvolvimento de aplicações em C++.
 
