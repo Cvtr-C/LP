@@ -7,63 +7,186 @@
 
 using namespace cv;
 
-int centroX = 400;
-int centroY = 400;
-int fatorEscala = 4;
+double fatorEscala = 40.0;
 
 Mat lista::renderizarTela(string status)
 {
-    Mat image(800, 800, CV_8UC3, Scalar(255, 255, 255));
+    const int largura = 1000;
+    const int altura = 1000;
+    Mat image(altura, largura, CV_8UC3, Scalar(255, 255, 255));
+
+    double centroX = largura / 2.0;
+    double centroY = altura / 2.0;
+
+    int maiorValor = 1;
 
     for (int i = 0; i < (int)list.size(); i++)
     {
-        int px = (list.at(i).x() * fatorEscala) + centroX;
-        int py = (list.at(i).y() * fatorEscala) + centroY;
-        cv::circle(image, Point(px, py), 5, Scalar(0, 0, 255), FILLED);
+        maiorValor = max(maiorValor, abs(list.at(i).x()));
+        maiorValor = max(maiorValor, abs(list.at(i).y()));
+    }
+
+    int margem = 50;
+    int tamanhoUtilX = largura / 2 - margem;
+    int tamanhoUtilY = altura / 2 - margem;
+
+    int tamanhoUtil = min(tamanhoUtilX, tamanhoUtilY);
+
+    fatorEscala = (double)tamanhoUtil / maiorValor;
+
+    int intervalo = 1;
+
+    if (fatorEscala < 50)
+    {
+        intervalo = 5;
+    }
+
+    if (fatorEscala < 20)
+    {
+        intervalo = 10;
+    }
+
+    if (fatorEscala < 10)
+    {
+        intervalo = 20;
+    }
+
+    if (fatorEscala < 5)
+    {
+        intervalo = 50;
+    }
+
+    if (fatorEscala < 2)
+    {
+        intervalo = 100;
+    }
+
+    int distGrade = max(10, (int)(intervalo * fatorEscala));
+
+    for (int x = (int)centroX; x < largura; x += distGrade)
+    {
+        line(image, Point(x, 0), Point(x, altura), Scalar(230, 230, 230), 1);
+    }
+    for (int x = (int)centroX - distGrade; x >= 0; x -= distGrade)
+    {
+        line(image, Point(x, 0), Point(x, altura), Scalar(230, 230, 230), 1);
+    }
+
+    for (int y = (int)centroY; y < altura; y += distGrade)
+    {
+        line(image, Point(0, y), Point(largura, y), Scalar(230, 230, 230), 1);
+    }
+    for (int y = (int)centroY - distGrade; y >= 0; y -= distGrade)
+    {
+        line(image, Point(0, y), Point(largura, y), Scalar(230, 230, 230), 1);
+    }
+
+    line(image, Point(0, (int)centroY), Point(largura, (int)centroY), Scalar(0, 0, 0), 2);
+    line(image, Point((int)centroX, 0), Point((int)centroX, altura), Scalar(0, 0, 0), 2);
+
+    int limiteX = (int)(largura / 2.0 / fatorEscala) + intervalo;
+
+    for (int valor = -limiteX; valor <= limiteX; valor += intervalo)
+    {
+        if (valor == 0)
+            continue;
+
+        int px = (int)(centroX + valor * fatorEscala);
+
+        if (px >= 0 && px < largura)
+        {
+            line(image, Point(px, (int)centroY - 5), Point(px, (int)centroY + 5), Scalar(0, 0, 0), 1);
+            putText(image, to_string(valor), Point(px - 10, (int)centroY + 25), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(0, 0, 0), 1);
+        }
+    }
+
+    int limiteY = (int)(altura / 2.0 / fatorEscala) + intervalo;
+
+    for (int valor = -limiteY; valor <= limiteY; valor += intervalo)
+    {
+        if (valor == 0)
+            continue;
+
+        int py = (int)(centroY - valor * fatorEscala);
+
+        if (py >= 0 && py < altura)
+        {
+            line(image, Point((int)centroX - 5, py), Point((int)centroX + 5, py), Scalar(0, 0, 0), 1);
+            putText(image, to_string(valor), Point((int)centroX + 10, py + 5), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(0, 0, 0), 1);
+        }
+    }
+
+    putText(image, "0", Point((int)centroX + 8, (int)centroY + 20), FONT_HERSHEY_SIMPLEX, 0.45, Scalar(0, 0, 0), 1);
+
+    for (int i = 0; i < (int)list.size(); i++)
+    {
+        double px = centroX + list.at(i).x() * fatorEscala;
+        double py = centroY - list.at(i).y() * fatorEscala;
+        if (px >= 0 && px < largura && py >= 0 && py < altura)
+        {
+            cv::circle(image, Point((int)px, (int)py), 5, Scalar(0, 0, 255), FILLED);
+            string texto = "(" + to_string(list.at(i).x()) + "," + to_string(list.at(i).y()) + ")";
+            putText(image, texto, Point((int)px + 8, (int)py - 8), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 0), 1);
+        }
     }
 
     if (!status.empty())
     {
-        putText(image, status, Point(20, 40), FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0, 0, 0), 2);
+        putText(image, status, Point(20, 30), FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0, 0, 0), 2);
     }
     return image;
 }
 
 void lista::clique(int event, int x, int y, int flags, void *userdata)
 {
+    if (event != EVENT_LBUTTONDOWN)
+        return;
+
     ClickData *data = static_cast<ClickData *>(userdata);
-    if (event == EVENT_LBUTTONDOWN)
-    {
-        data->x = (x - centroX) / fatorEscala;
-        data->y = (y - centroY) / fatorEscala;
-        data->clicked = true;
-    }
+
+    int largura = 1000;
+    int altura = 1000;
+
+    double centroX = largura / 2.0;
+    double centroY = altura / 2.0;
+
+    data->x = (int)round((x - centroX) / fatorEscala);
+    data->y = (int)round((centroY - y) / fatorEscala);
+    data->clicked = true;
 }
 
 bool lista::obterPontoPorClique(int &x, int &y, string acao)
 {
-    string tituloJanela = "Selecione o Ponto - " + acao;
-    Mat imagem = renderizarTela("Acao: " + acao + " - Clique na tela");
+    string tituloJanela = "Plano Cartesioano - " + acao;
     namedWindow(tituloJanela, WINDOW_AUTOSIZE);
 
     ClickData data;
-    setMouseCallback(tituloJanela, clique, &data);
-    imshow(tituloJanela, imagem);
+    setMouseCallback(tituloJanela, lista::clique, &data);
+    ;
 
-    while (!data.clicked)
+    while (true)
     {
-        char tecla = (char)waitKey(10);
-        if (tecla == 27 || getWindowProperty(tituloJanela, WND_PROP_VISIBLE) < 1)
+        Mat imagem = renderizarTela("Clique para selecionar um ponto | ESC para cancelar");
+
+        imshow(tituloJanela, imagem);
+
+        int tecla = waitKey(20);
+
+        if (tecla == 27)
         {
             destroyWindow(tituloJanela);
             return false;
         }
-    }
 
-    x = data.x;
-    y = data.y;
-    destroyWindow(tituloJanela);
-    return true;
+        if (data.clicked)
+        {
+            x = data.x;
+            y = data.y;
+
+            destroyWindow(tituloJanela);
+            return true;
+        }
+    }
 }
 
 //*************************************CONSTRUTORES*************************************//
@@ -208,44 +331,58 @@ void lista::adicionarNoIndice(int x, int y, int ind)
 
 void lista::adicionarCentroideMaisProximo(int x, int y)
 {
-    int idx = encontrarMaisProximo(x, y);
-    if (idx == -1)
+    if (list.size() < 2)
     {
-        msgErroVazia("calcular o centroide");
+        msgErroVazia("Essa função precisa de no mínimo dois ponto!");
         return;
     }
 
-    double menorDist = pow(list.at(idx).x() - x, 2) + pow(list.at(idx).y() - y, 2);
-    long long somaX = 0, somaY = 0;
-    int contador = 0;
+    int ind = -1;
+    double menorDist = DBL_MAX;
 
-    for (int i = 0; i < (int)list.size(); i++)
+    for (int i = 0; i < (int)list.size() - 1; i++)
     {
-        double distSq = pow(list.at(i).x() - x, 2) + pow(list.at(i).y() - y, 2);
-        if (distSq <= menorDist * 2.5)
+        double x1 = list.at(i).x();
+        double y1 = list.at(i).y();
+        double x2 = list.at(i + 1).x();
+        double y2 = list.at(i + 1).y();
+
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+
+        double distSq = dx * dx + dy * dy;
+
+        if (distSq < menorDist)
         {
-            somaX += list.at(i).x();
-            somaY += list.at(i).y();
-            contador++;
+            menorDist = distSq;
+            ind = i;
         }
     }
 
-    if (contador == 0)
+    if (ind == -1)
     {
-        mostrarErro("Nenhum ponto proximo o suficiente da referencia informada.");
+        mostrarErro("Não foi possivel encontrar dois pontos.");
         return;
     }
 
-    int cx = somaX / contador, cy = somaY / contador;
-    if (Duplicate(cx, cy))
+    int x1 = list.at(ind).x();
+    int y1 = list.at(ind).y();
+    int x2 = list.at(ind + 1).x();
+    int y2 = list.at(ind + 1).y();
+
+    int novoX = (int)round((x1 + x2) / 2.0);
+    int novoY = (int)round((y1 + y2) / 2.0);
+
+    if (Duplicate(novoX, novoY))
     {
-        mostrarErro("O centroide calculado ja existe na estrutura espacial.");
+        mostrarErro("O ponto médio calculado já existe na estrutura espacial.");
         return;
     }
 
-    ponto centroide(cx, cy);
-    list.push_back(centroide);
-    msgSucessoAdicao("como centroide regional", cx, cy);
+    ponto novoPonto(novoX, novoY);
+    list.insert(list.begin() + ind + 1, novoPonto);
+
+    msgSucessoAdicao("Entre os dois pontos mais proximos", novoX, novoY);
 }
 
 void lista::apagarPontoMaisProximo(int x, int y)
@@ -311,17 +448,6 @@ void lista::mostrarPontos()
     if (list.empty())
     {
         cout << "[i] O ambiente espacial esta vazio." << endl;
-        try
-        {
-            if (cv::getWindowProperty("Mapeamento Espacial", cv::WND_PROP_VISIBLE) >= 0)
-            {
-                cv::destroyWindow("Mapeamento Espacial");
-            }
-        }
-        catch (...)
-        {
-        }
-        return;
     }
 
     imprimirCabecalho("MAPEAMENTO ESPACIAL");
@@ -330,9 +456,18 @@ void lista::mostrarPontos()
         cout << "  [" << i + 1 << "] -> X: " << list.at(i).x() << " | Y: " << list.at(i).y() << endl;
     }
     imprimirSeparador();
+}
 
+void lista::mostrarGrafico()
+{
+    if (list.empty())
+    {
+        cout << "[i] Nenhum ponto para mostrar." << endl;
+        return;
+    }
+    Mat img = renderizarTela("Mapeamento Espacial");
     namedWindow("Mapeamento Espacial", WINDOW_AUTOSIZE);
-    Mat img = renderizarTela();
     imshow("Mapeamento Espacial", img);
-    waitKey(60);
+    waitKey(0);
+    destroyWindow("Mapeamento Espacial");
 }

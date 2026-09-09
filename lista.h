@@ -42,6 +42,8 @@ public:
 
     bool obterPontoPorClique(int &x, int &y, string acao);
 
+    void mostrarGrafico();
+
 private:
     struct ClickData
     {

@@ -106,6 +106,7 @@ void executarMenuLista(lista &list)
       {
         imprimirCabecalho("LISTA: ADICIONAR");
         list.mostrarPontos();
+        list.mostrarGrafico();
         cout << " [1] No Inicio\n [2] No Final\n [3] Em Indice Especifico\n";
         cout << " [4] De Arquivo\n [5] No Centroide Proximo\n [6] Gerar Circulo\n [7] Voltar\n";
         imprimirSeparador();
@@ -149,6 +150,7 @@ void executarMenuLista(lista &list)
       {
         imprimirCabecalho("LISTA: EXCLUIR");
         list.mostrarPontos();
+        list.mostrarGrafico();
         cout << " [1] Primeiro\n [2] Ultimo\n [3] Por Indice\n [4] Proximo de (X,Y)\n [5] Voltar\n";
         imprimirSeparador();
         opc3 = lerInteiro(" [>] Digite a opcao: ");
@@ -190,6 +192,7 @@ void executarMenuPilha(lista &list)
       {
         imprimirCabecalho("PILHA: ADICIONAR");
         list.mostrarPontos();
+        list.mostrarGrafico();
         cout << " [1] No Fim da Pilha\n [2] De Arquivo\n [3] Gerar Circulo\n [4] Voltar\n";
         imprimirSeparador();
         opc3 = lerInteiro(" [>] Digite a opcao: ");
@@ -208,6 +211,7 @@ void executarMenuPilha(lista &list)
     }
     else if (opc2 == 2)
       list.apagarUltimoPonto();
+    list.mostrarGrafico();
 
   } while (opc2 != 3);
 }
@@ -229,6 +233,7 @@ void executarMenuFila(lista &list)
       {
         imprimirCabecalho("FILA: ADICIONAR");
         list.mostrarPontos();
+        list.mostrarGrafico();
         cout << " [1] No Fim da Fila\n [2] De Arquivo\n [3] Gerar Circulo\n [4] Voltar\n";
         imprimirSeparador();
         opc3 = lerInteiro(" [>] Digite a opcao: ");
@@ -247,6 +252,7 @@ void executarMenuFila(lista &list)
     }
     else if (opc2 == 2)
       list.apagarPrimeiroPonto();
+    list.mostrarGrafico();
 
   } while (opc2 != 3);
 }
