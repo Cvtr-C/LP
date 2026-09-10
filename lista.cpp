@@ -11,8 +11,8 @@ double fatorEscala = 40.0;
 
 Mat lista::renderizarTela(string status)
 {
-    const int largura = 1000;
-    const int altura = 1000;
+    const int largura = 800;
+    const int altura = 800;
     Mat image(altura, largura, CV_8UC3, Scalar(255, 255, 255));
 
     double centroX = largura / 2.0;
@@ -144,8 +144,8 @@ void lista::clique(int event, int x, int y, int flags, void *userdata)
 
     ClickData *data = static_cast<ClickData *>(userdata);
 
-    int largura = 1000;
-    int altura = 1000;
+    int largura = 800;
+    int altura = 800;
 
     double centroX = largura / 2.0;
     double centroY = altura / 2.0;
@@ -255,7 +255,7 @@ void lista::circle(int cx, int cy, int r, int np)
             gerados++;
         }
     }
-    mostrarSucesso("Circulo gerado com " + to_string(gerados) + " pontos de" + to_string(np) + "solicitados.");
+    mostrarSucesso("Circulo gerado com " + to_string(gerados) + " pontos de " + to_string(np) + " solicitados.");
 }
 
 void lista::file(const char *fileName)
