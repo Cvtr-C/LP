@@ -18,7 +18,7 @@ Mat lista::renderizarTela(string status)
     double centroX = largura / 2.0;
     double centroY = altura / 2.0;
 
-    int maiorValor = 1;
+    int maiorValor = 20;
 
     for (int i = 0; i < (int)list.size(); i++)
     {
@@ -341,13 +341,11 @@ void lista::adicionarCentroideMaisProximo(int x, int y)
 
     for (int i = 0; i < (int)list.size() - 1; i++)
     {
-        double x1 = list.at(i).x();
-        double y1 = list.at(i).y();
-        double x2 = list.at(i + 1).x();
-        double y2 = list.at(i + 1).y();
+        double cx = (list.at(i).x() + list.at(i + 1).x()) / 2.0;
+        double cy = (list.at(i).y() + list.at(i + 1).y()) / 2.0;
 
-        double dx = x2 - x1;
-        double dy = y2 - y1;
+        double dx = x - cx;
+        double dy = y - cy;
 
         double distSq = dx * dx + dy * dy;
 
@@ -364,13 +362,8 @@ void lista::adicionarCentroideMaisProximo(int x, int y)
         return;
     }
 
-    int x1 = list.at(ind).x();
-    int y1 = list.at(ind).y();
-    int x2 = list.at(ind + 1).x();
-    int y2 = list.at(ind + 1).y();
-
-    int novoX = (int)round((x1 + x2) / 2.0);
-    int novoY = (int)round((y1 + y2) / 2.0);
+    int novoX = (int)round((list.at(ind).x() + list.at(ind + 1).x()) / 2.0);
+    int novoY = (int)round((list.at(ind).y() + list.at(ind + 1).y()) / 2.0);
 
     if (Duplicate(novoX, novoY))
     {
