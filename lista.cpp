@@ -227,29 +227,27 @@ lista::lista(int x, int y)
     list.push_back(p);
 }
 
-void lista::circle(const int &cx, const int &cy, const float &r, const int &np)
+void lista::circle(int cx, int cy, int r, int np)
 {
     if (np <= 0)
     {
         mostrarErro("O numero de pontos do circulo deve ser maior que zero.");
         return;
     }
-    if (r < 0)
+    if (r <= 0)
     {
-        mostrarErro("O raio do circulo nao pode ser negativo.");
+        mostrarErro("O raio do circulo nao pode ser negativo ou zero.");
         return;
     }
 
-    int x, y;
-    double ang, temp;
-    double np_double = (double)np;
-    ang = 2 * 3.1415 / np_double;
+    constexpr double PI = 3.1415926535;
     int gerados = 0;
 
-    for (temp = 0; temp < 2 * 3.1415; temp = temp + ang)
+    for (int i = 0; i < np; i++)
     {
-        x = cx + (int)(cos(temp) * r);
-        y = cy + (int)(sin(temp) * r);
+        double ang = 2.0 * PI * i / np;
+        int x = cx + (int)round(cos(ang) * r);
+        int y = cy + (int)round(sin(ang) * r);
         if (!Duplicate(x, y))
         {
             ponto p(x, y);
@@ -257,10 +255,10 @@ void lista::circle(const int &cx, const int &cy, const float &r, const int &np)
             gerados++;
         }
     }
-    mostrarSucesso("Circulo gerado com " + to_string(gerados) + " pontos espaciais!");
+    mostrarSucesso("Circulo gerado com " + to_string(gerados) + " pontos de" + to_string(np) + "solicitados.");
 }
 
-void lista::file(char *fileName)
+void lista::file(const char *fileName)
 {
     FILE *fp = fopen(fileName, "r");
     if (fp == NULL)
@@ -332,7 +330,7 @@ void lista::adicionarCentroideMaisProximo(int x, int y)
 {
     if (list.size() < 2)
     {
-        msgErroVazia("Essa função precisa de no mínimo dois ponto!");
+        msgErroVazia("Sao necessarios pelo menos dois pontos.");
         return;
     }
 

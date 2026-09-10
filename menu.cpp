@@ -38,24 +38,26 @@ int lerInteiro(string mensagem)
 
 bool obterCoordenadas(int &x, int &y, lista &list, string acao)
 {
-  int escolha;
-  cout << " [1] Digitar (Teclado) | [2] Clicar (Interface Grafica)\n";
-  escolha = lerInteiro(" [>] Escolha o metodo: ");
-
-  if (escolha == 1)
+  while (true)
   {
-    x = lerInteiro(" [+] Informe X: ");
-    y = lerInteiro(" [+] Informe Y: ");
-    return true;
-  }
-  else
-  {
-    if (!list.obterPontoPorClique(x, y, acao))
+    cout << "[1] Digitar (Teclado) |" << "[2] Clicar (Interface Gráfica)" << endl;
+    int escolha = lerInteiro("[>] Escolha metodo:");
+    if (escolha == 1)
     {
-      mostrarErro("Operacao grafica cancelada.");
-      return false;
+      x = lerInteiro("[+] Informe X:");
+      y = lerInteiro("[+] Informe Y:");
+      return true;
     }
-    return true;
+    if (escolha == 2)
+    {
+      if (!list.obterPontoPorClique(x, y, acao))
+      {
+        mostrarErro("Operacao grafica cancelada.");
+        return false;
+      }
+      return true;
+    }
+    mostrarErro("Escolha 1 para teclado ou 2 para interface grafica.");
   }
 }
 
@@ -74,10 +76,10 @@ void menuImportarArquivo(lista &list)
     switch (opc)
     {
     case 1:
-      list.file((char *)"pontos1.txt");
+      list.file("pontos1.txt");
       break;
     case 2:
-      list.file((char *)"pontos2.txt");
+      list.file("pontos2.txt");
       break;
     case 3:
       break;

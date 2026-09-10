@@ -24,8 +24,8 @@ public:
     void adicionarNoComeco(int x, int y);
     void adicionarNoIndice(int x, int y, int ind);
 
-    void circle(const int &cx, const int &cy, const float &r, const int &np);
-    void file(char *fileName);
+    void circle(int cx, int cy, int r, int np);
+    void file(const char *fileName);
 
     void mostrarPontos();
 
