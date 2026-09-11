@@ -36,32 +36,12 @@ Mat lista::renderizarTela(string status)
 
     int intervalo = 1;
 
-    if (fatorEscala < 50)
+    while (intervalo * fatorEscala < 100.0)
     {
-        intervalo = 5;
+        intervalo *= 2;
     }
 
-    if (fatorEscala < 20)
-    {
-        intervalo = 10;
-    }
-
-    if (fatorEscala < 10)
-    {
-        intervalo = 20;
-    }
-
-    if (fatorEscala < 5)
-    {
-        intervalo = 50;
-    }
-
-    if (fatorEscala < 2)
-    {
-        intervalo = 100;
-    }
-
-    int distGrade = max(10, (int)(intervalo * fatorEscala));
+    int distGrade = (int)(intervalo * fatorEscala);
 
     for (int x = (int)centroX; x < largura; x += distGrade)
     {
@@ -84,7 +64,7 @@ Mat lista::renderizarTela(string status)
     line(image, Point(0, (int)centroY), Point(largura, (int)centroY), Scalar(0, 0, 0), 2);
     line(image, Point((int)centroX, 0), Point((int)centroX, altura), Scalar(0, 0, 0), 2);
 
-    int limiteX = (int)(largura / 2.0 / fatorEscala) + intervalo;
+    int limiteX = (int)(largura / 2.0 / fatorEscala / intervalo) * intervalo;
 
     for (int valor = -limiteX; valor <= limiteX; valor += intervalo)
     {
@@ -100,7 +80,7 @@ Mat lista::renderizarTela(string status)
         }
     }
 
-    int limiteY = (int)(altura / 2.0 / fatorEscala) + intervalo;
+    int limiteY = (int)(altura / 2.0 / fatorEscala / intervalo) * intervalo;
 
     for (int valor = -limiteY; valor <= limiteY; valor += intervalo)
     {
@@ -124,9 +104,12 @@ Mat lista::renderizarTela(string status)
         double py = centroY - list.at(i).y() * fatorEscala;
         if (px >= 0 && px < largura && py >= 0 && py < altura)
         {
-            cv::circle(image, Point((int)px, (int)py), 5, Scalar(0, 0, 255), FILLED);
-            string texto = "(" + to_string(list.at(i).x()) + "," + to_string(list.at(i).y()) + ")";
-            putText(image, texto, Point((int)px + 8, (int)py - 8), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 0), 1);
+            cv::circle(image, Point((int)px, (int)py), 2, Scalar(0, 0, 255), FILLED, LINE_AA);
+            if (list.size() <= 100)
+            {
+                string texto = "(" + to_string(list.at(i).x()) + ", " + to_string(list.at(i).y()) + ")";
+                putText(image, texto, Point((int)px + 8, (int)py - 8), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 0), 1, LINE_AA);
+            }
         }
     }
 
