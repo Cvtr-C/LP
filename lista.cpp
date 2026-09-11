@@ -105,7 +105,7 @@ Mat lista::renderizarTela(string status)
         if (px >= 0 && px < largura && py >= 0 && py < altura)
         {
             cv::circle(image, Point((int)px, (int)py), 2, Scalar(0, 0, 255), FILLED, LINE_AA);
-            if (list.size() <= 100)
+            if (list.size() <= 40)
             {
                 string texto = "(" + to_string(list.at(i).x()) + ", " + to_string(list.at(i).y()) + ")";
                 putText(image, texto, Point((int)px + 8, (int)py - 8), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 0), 1, LINE_AA);
