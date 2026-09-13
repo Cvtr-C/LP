@@ -140,7 +140,7 @@ void lista::clique(int event, int x, int y, int flags, void *userdata)
 
 bool lista::obterPontoPorClique(int &x, int &y, string acao)
 {
-    string tituloJanela = "Plano Cartesioano - " + acao;
+    string tituloJanela = "Plano Cartesiano - " + acao;
     namedWindow(tituloJanela, WINDOW_AUTOSIZE);
 
     ClickData data;
