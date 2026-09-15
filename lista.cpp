@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
 #include <string>
+#include <cfloat>
 
 using namespace cv;
 
@@ -123,6 +124,9 @@ Mat lista::renderizarTela(string status)
 void lista::clique(int event, int x, int y, int flags, void *userdata)
 {
     if (event != EVENT_LBUTTONDOWN)
+        return;
+
+    if (userdata == nullptr)
         return;
 
     ClickData *data = static_cast<ClickData *>(userdata);
